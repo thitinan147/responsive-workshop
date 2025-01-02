@@ -1,0 +1,14 @@
+/* Tag Selector */
+p {
+    color: green !important;
+}
+
+/* Class Selector */
+.color-class {
+    color: red;
+}
+
+/* ID Selector */
+#color-id {
+    color: blue;
+}

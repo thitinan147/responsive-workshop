@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Fullscreen Layout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #f0f0f0, #3498db);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Ensures the footer is pushed to the bottom */
+    }
+
+    /* Header (Navbar) */
+    .header {
+      background-color: #2c3e50;
+      padding: 20px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .navbar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ecf0f1;
+      transition: color 0.3s ease;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar .nav-links a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar .nav-links a:hover {
+      background-color: #3498db;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* Main Container */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 30px;
+      margin-top: 80px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 80px auto 40px;
+      height: 100%;
+    }
+
+    .sidebar {
+      background-color: #34495e;
+      color: #ecf0f1;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .sidebar h2 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      color: #3498db;
+    }
+
+    /* Main Content */
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+    }
+
+    .section {
+      flex: 1 1 calc(33.333% - 30px);
+      background-color: #3498db;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      font-weight: 700;
+      transition: transform 0.3s ease;
+    }
+
+    .section p {
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+
+    .section .cta-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .section .cta-btn:hover {
+      background-color: #c0392b;
+      transform: scale(1.05);
+    }
+
+    .section:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      text-align: center;
+      padding: 30px 20px;
+      width: 100%;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+      margin-top: auto; /* Ensure footer sticks to the bottom */
+    }
+
+    .footer .social-links {
+      margin-top: 10px;
+    }
+
+    .footer .social-links a {
+      color: #ecf0f1;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.3em;
+      transition: color 0.3s ease;
+    }
+
+    .footer .social-links a:hover {
+      color: #3498db;
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .main-content .section {
+        flex: 1 1 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar .nav-links {
+        display: none;
+      }
+
+      .main-content .section {
+        flex: 1 1 100%;
+      }
+
+      .footer .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="navbar">
+      <div class="logo">My Website</div>
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Sidebar</h2>
+      <p>Welcome to the sidebar! Here you'll find links to navigate around the website.</p>
+      <ul>
+        <li><a href="#">Link 1</a></li>
+        <li><a href="#">Link 2</a></li>
+        <li><a href="#">Link 3</a></li>
+        <li><a href="#">Link 4</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="section">
+        <h2>Section 1</h2>
+        <p>This is the first section. It contains some interesting information about our website.</p>
+        <button class="cta-btn">Learn More</button>
+      </section>
+      <section class="section">
+        <h2>Section 2</h2>
+        <p>This section is about our services. We offer a range of solutions to help you achieve your goals.</p>
+        <button class="cta-btn">Explore Services</button>
+      </section>
+      <section class="section">
+        <h2>Section 3</h2>
+        <p>In this section, we share our company values and vision for the future.</p>
+        <button class="cta-btn">Join Us</button>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 My Website. All rights reserved.</p>
+    <p>Follow us on:</p>
+    <div class="social-links">
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>
